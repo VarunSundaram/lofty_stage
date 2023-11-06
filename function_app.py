@@ -5,7 +5,7 @@ import time
 
 app = func.FunctionApp()
 
-@app.schedule(schedule="* 12 0/15 * * 1-5", arg_name="myTimer", run_on_startup=True,
+@app.schedule(schedule="* 0/14 * * * 1-5", arg_name="myTimer", run_on_startup=True,
               use_monitor=False) 
 def lofty_staging(myTimer: func.TimerRequest) -> None:
     if myTimer.past_due:
