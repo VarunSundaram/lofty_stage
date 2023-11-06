@@ -39,7 +39,7 @@ def stage_my_lofty():
         "properties":"enabled"
         }
     
-    response = requests.post(f"{api}", json=data)
+    response = requests.put(f"{api}", headers=head_data, json=data)
     if response.status_code == 200:
         logging.info('the lofty application is enabled for the comfort')
     else:
