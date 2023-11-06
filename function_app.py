@@ -26,6 +26,7 @@ def stage_my_lofty():
         logging.info('the lofty application is disabled for the comfort')
     else:
         logging.info('the lofty application is not disabled and this is worriesome')
+        logging.info(response)
         return
     time.sleep(30)
     
