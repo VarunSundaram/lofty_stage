@@ -71,7 +71,7 @@ def get_access_token():
     TENANT_ID = '536391cd-606c-460c-b9c8-b394d89b7a63'
 
     # Your Service Principal App ID
-    CLIENT = '0cb71644-96b9-46bd-b733-075c93393e58'
+    CLIENT = '4d296fdd-a8eb-4f9c-8d71-06dc86c4c319'
 
     # Your Service Principal Password
     KEY = 'b19d9a53-723d-4c64-a97f-2bf29148e908'
