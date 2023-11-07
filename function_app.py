@@ -54,6 +54,8 @@ def stage_my_lofty():
         logging.info('the lofty application is not enabled and this is worriesome')
     logging.info (response.status_code)
     logging.info (response.text)
+    
+    time.sleep(270)
     return
 
 #if __name__ == "__main__":
