@@ -17,7 +17,7 @@ def lofty_staging(myTimer: func.TimerRequest) -> None:
 
     logging.info('Python timer trigger function ran at %s', utc_timestamp)
     hour = datetime.datetime.utcnow().hour
-    if hour >= 3 and hour <= 20:
+    if hour >= 3 and hour <= 24:
         stage_my_lofty()
     
 def stage_my_lofty():
