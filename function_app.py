@@ -25,6 +25,7 @@ def stage_my_lofty():
     
     if "none" in token:
         time.sleep(180)
+        return
     
     api = "https://management.azure.com/subscriptions/cf74786c-6831-4d2b-84c7-9a4e95d202dc/resourceGroups/bollingerposition/providers/Microsoft.Web/sites/lofty-az/functions/loftypts/properties/state?api-version=2022-09-01"
 
@@ -80,12 +81,14 @@ def get_access_token():
     token_req_payload = {'grant_type': 'client_credentials'}
 
     token_response = requests.post(auth_server_url,
-    data=token_req_payload, verify=False, allow_redirects=False,
-    auth=(CLIENT, KEY))
+        data=token_req_payload, verify=False, allow_redirects=False,
+        auth=(CLIENT, KEY))
         
     if token_response.status_code !=200:
         logging.info ("Failed to obtain token from the OAuth 2.0 server")
         logging.info (token_response.text)
+        logging.info (token_response)
+        logging.info (token_response.status_code)
         return "none"
 
     logging.info ("Successfuly obtained a new token")
