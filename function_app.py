@@ -39,6 +39,7 @@ def stage_my_lofty():
         logging.info ('the lofty application is not disabled and this is worriesome')
         logging.info (response.status_code)
         logging.info (response.text)
+        time.sleep(270)
         return
     
     time.sleep(30)
