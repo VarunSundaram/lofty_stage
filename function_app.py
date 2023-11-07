@@ -2,17 +2,22 @@ import logging
 import azure.functions as func
 import requests
 import time
+import datetime
 
 app = func.FunctionApp()
 
 @app.schedule(schedule="* 0/14 * * * 1-5", arg_name="myTimer", run_on_startup=True,
               use_monitor=False) 
 def lofty_staging(myTimer: func.TimerRequest) -> None:
+    utc_timestamp = datetime.datetime.utcnow().replace(
+        tzinfo=datetime.timezone.utc).isoformat()
     if myTimer.past_due:
         logging.info('The timer is past due!')
 
-    logging.info('Python timer trigger function executed.')
-    stage_my_lofty()
+    logging.info('Python timer trigger function ran at %s', utc_timestamp)
+    hour = datetime.datetime.utcnow().hour
+    if hour >= 3 and hour <= 20:
+        stage_my_lofty()
     
 def stage_my_lofty():
     api = "https://management.azure.com/subscriptions/cf74786c-6831-4d2b-84c7-9a4e95d202dc/resourceGroups/bollingerposition/providers/Microsoft.Web/sites/lofty-az/functions/loftypts/properties/state?api-version=2022-09-01"
