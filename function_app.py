@@ -33,11 +33,14 @@ def stage_my_lofty():
     
     response = requests.put(f"{api}", headers=head_data, json=data)
     if response.status_code == 200:
-        logging.info('the lofty application is disabled for the comfort')
+        logging.info ('the lofty application is disabled for the comfort')
+        logging.info (response.text)
     else:
-        logging.info('the lofty application is not disabled and this is worriesome')
-        logging.info(response)
+        logging.info ('the lofty application is not disabled and this is worriesome')
+        logging.info (response.status_code)
+        logging.info (response.text)
         return
+    
     time.sleep(30)
     
     data = {
@@ -49,6 +52,8 @@ def stage_my_lofty():
         logging.info('the lofty application is enabled for the comfort')
     else:
         logging.info('the lofty application is not enabled and this is worriesome')
+    logging.info (response.status_code)
+    logging.info (response.text)
     return
 
 #if __name__ == "__main__":
