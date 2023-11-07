@@ -76,7 +76,7 @@ def get_access_token():
     # Your Service Principal Password
     KEY = 'b19d9a53-723d-4c64-a97f-2bf29148e908'
 
-    auth_server_url = "https://login.microsoftonline.com/{TENANT_ID}/oauth2/v2.0/token'"
+    auth_server_url = "https://login.microsoftonline.com/{TENANT_ID}/"
 
     token_req_payload = {'grant_type': 'client_credentials'}
 
