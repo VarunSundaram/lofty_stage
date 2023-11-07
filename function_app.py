@@ -6,7 +6,8 @@ import datetime
 
 app = func.FunctionApp()
 
-@app.schedule(schedule="* 0/14 * * * 1-5", arg_name="myTimer", run_on_startup=True,
+#@app.schedule(schedule="* 0/14 * * * 1-5", arg_name="myTimer", run_on_startup=True,
+@app.schedule(schedule="* 0/5 * * * 1-5", arg_name="myTimer", run_on_startup=True,
               use_monitor=False) 
 def lofty_staging(myTimer: func.TimerRequest) -> None:
     utc_timestamp = datetime.datetime.utcnow().replace(
@@ -20,6 +21,11 @@ def lofty_staging(myTimer: func.TimerRequest) -> None:
         stage_my_lofty()
     
 def stage_my_lofty():
+    token = get_access_token()
+    
+    if "none" in token:
+        time.sleep(180)
+    
     api = "https://management.azure.com/subscriptions/cf74786c-6831-4d2b-84c7-9a4e95d202dc/resourceGroups/bollingerposition/providers/Microsoft.Web/sites/lofty-az/functions/loftypts/properties/state?api-version=2022-09-01"
 
     head_data ={
@@ -58,6 +64,35 @@ def stage_my_lofty():
     
     time.sleep(270)
     return
+
+def get_access_token():
+    # Tenant ID for your Azure Subscription
+    TENANT_ID = '536391cd-606c-460c-b9c8-b394d89b7a63'
+
+    # Your Service Principal App ID
+    CLIENT = '0cb71644-96b9-46bd-b733-075c93393e58'
+
+    # Your Service Principal Password
+    KEY = 'b19d9a53-723d-4c64-a97f-2bf29148e908'
+
+    auth_server_url = "https://login.microsoftonline.com/{TENANT_ID}/oauth2/v2.0/token'"
+
+    token_req_payload = {'grant_type': 'client_credentials'}
+
+    token_response = requests.post(auth_server_url,
+    data=token_req_payload, verify=False, allow_redirects=False,
+    auth=(CLIENT, KEY))
+        
+    if token_response.status_code !=200:
+        logging.info ("Failed to obtain token from the OAuth 2.0 server")
+        logging.info (token_response.text)
+        return "none"
+
+    logging.info ("Successfuly obtained a new token")
+    logging.info (token_response.text)
+    return token_response["access_token"]
+ 
+
 
 #if __name__ == "__main__":
 #    stage_my_lofty()
