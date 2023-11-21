@@ -96,7 +96,9 @@ def get_access_token():
     auth_body['grant_type'] = 'client_credentials'  
     auth_body['resource'] = appid  
 
-    auth_response = post(auth_server_url, data=auth_body).json()  
+    auth_response = post(auth_server_url, data=auth_body)
+    
+    logging.info (auth_response.json())
     
     if auth_response.status_code !=200:
         logging.info ("1 Failed to obtain token from the OAuth 2.0 server")
