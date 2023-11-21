@@ -81,11 +81,11 @@ def get_access_token():
     CLIENT = '4d296fdd-a8eb-4f9c-8d71-06dc86c4c319'
 
     # Your Service Principal Password
-    KEY = 'b19d9a53-723d-4c64-a97f-2bf29148e908'
+    KEY = 'G~78Q~uHYizSkBtJKL-IpdSNHT6op1kn.WwclbaD'
 
     auth_server_url = "https://login.microsoftonline.com/536391cd-606c-460c-b9c8-b394d89b7a63/oauth2/token"
     
-    appid = "ecbffb91-d846-458f-9f93-331dfe5fb99c"
+    appid = "3edd260c-2ca6-4c03-9e33-98a51a3e4c67"
     appuri = "https://lofty-az.azurewebsites.net"
     # secret = getenv(<name-of-secret-stored-in-env-variable>)
 
