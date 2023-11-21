@@ -20,10 +20,10 @@ def lofty_staging(myTimer: func.TimerRequest) -> None:
 
         logging.info('Python timer trigger function ran at %s', utc_timestamp)
         hour = datetime.datetime.utcnow().hour
-        if hour >= 3 and hour <= 24:
+        if hour >= 3 and hour < 24:
             stage_my_lofty()
     except:
-        time.sleep(120)
+        time.sleep(60)
         stage_my_lofty()
     
 def stage_my_lofty():
@@ -104,7 +104,9 @@ def get_access_token():
         logging.info (auth_response)
         logging.info (auth_response.status_code)
     else:
-        logging.info ("Successfuly obtained a new token")
+        logging.info ("1 Successfuly obtained a new token")
+        logging.info (auth_response.text)
+        logging.info (auth_response)
         access_token = auth_response['access_token']    
         logging.info (access_token)
         return access_token
