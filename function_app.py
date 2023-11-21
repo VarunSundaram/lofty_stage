@@ -1,8 +1,10 @@
 import logging
 import azure.functions as func
 import requests
+from requests import post
 import time
 import datetime
+from os import getenv
 
 app = func.FunctionApp()
 
@@ -76,16 +78,40 @@ def get_access_token():
     # Your Service Principal Password
     KEY = 'b19d9a53-723d-4c64-a97f-2bf29148e908'
 
-    auth_server_url = "https://login.microsoftonline.com/{TENANT_ID}/"
+    auth_server_url = "https://login.microsoftonline.com/{TENANT_ID}/oauth2/token"
+    
+    appid = "ecbffb91-d846-458f-9f93-331dfe5fb99c"
+    appuri = "https://lofty-az.azurewebsites.net"
+    # secret = getenv(<name-of-secret-stored-in-env-variable>)
 
+    ### 1ST STEP - getting auth token with App registration secret  
+    auth_body = {}  
+    auth_body['client_id'] = appid  
+    auth_body['client_secret'] = KEY  
+    auth_body['grant_type'] = 'client_credentials'  
+    auth_body['resource'] = appid  
+
+    auth_response = post(auth_server_url, data=auth_body).json()  
+    access_token = auth_response['access_token']
+    
+    if auth_response.status_code !=200:
+        logging.info ("1 Failed to obtain token from the OAuth 2.0 server")
+        logging.info (auth_response.text)
+        logging.info (auth_response)
+        logging.info (auth_response.status_code)
+    else:
+        logging.info ("Successfuly obtained a new token")
+        logging.info (access_token)
+        return access_token
+    
     token_req_payload = {'grant_type': 'client_credentials'}
-
+    
     token_response = requests.post(auth_server_url,
         data=token_req_payload, verify=False, allow_redirects=False,
-        auth=(CLIENT, KEY))
+        auth=(appid, KEY))
         
     if token_response.status_code !=200:
-        logging.info ("Failed to obtain token from the OAuth 2.0 server")
+        logging.info ("2 Failed to obtain token from the OAuth 2.0 server")
         logging.info (token_response.text)
         logging.info (token_response)
         logging.info (token_response.status_code)
@@ -95,6 +121,17 @@ def get_access_token():
     logging.info (token_response.text)
     return token_response["access_token"]
  
+def authenticate():
+    TOKEN_URL = "https://login.microsoftonline.com/536391cd-606c-460c-b9c8-b394d89b7a63/oauth2/v2.0/token"
+
+    request_payload = {"username": "varunsundaram@outlook.com",
+                       "password": "Juliet#1",
+                       "scope": ".default",
+                       "grant_type": "client_credentials",
+                       "client_id": "4d296fdd-a8eb-4f9c-8d71-06dc86c4c319",
+                       "client_secret": "dd48Q~dwBSaSbtVp8p3FYrWrz6xVr1inYhlx2akV"}
+
+    return requests.post(url=TOKEN_URL, data=request_payload)
 
 
 #if __name__ == "__main__":
