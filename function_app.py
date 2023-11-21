@@ -83,7 +83,7 @@ def get_access_token():
     # Your Service Principal Password
     KEY = 'b19d9a53-723d-4c64-a97f-2bf29148e908'
 
-    auth_server_url = "https://login.microsoftonline.com/{TENANT_ID}/oauth2/token"
+    auth_server_url = "https://login.microsoftonline.com/536391cd-606c-460c-b9c8-b394d89b7a63/oauth2/token"
     
     appid = "ecbffb91-d846-458f-9f93-331dfe5fb99c"
     appuri = "https://lofty-az.azurewebsites.net"
