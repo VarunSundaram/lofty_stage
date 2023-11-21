@@ -31,7 +31,7 @@ def stage_my_lofty():
     token = get_access_token()
     
     if "none" in token:
-        time.sleep(180)
+        time.sleep(60)
         return
     
     api = "https://management.azure.com/subscriptions/cf74786c-6831-4d2b-84c7-9a4e95d202dc/resourceGroups/bollingerposition/providers/Microsoft.Web/sites/lofty-az/functions/loftypts/properties/state?api-version=2022-09-01"
@@ -70,7 +70,7 @@ def stage_my_lofty():
     logging.info (response.status_code)
     logging.info (response.text)
     
-    time.sleep(270)
+    time.sleep(120)
     return
 
 def get_access_token():
@@ -81,11 +81,11 @@ def get_access_token():
     CLIENT = '4d296fdd-a8eb-4f9c-8d71-06dc86c4c319'
 
     # Your Service Principal Password
-    KEY = 'G~78Q~uHYizSkBtJKL-IpdSNHT6op1kn.WwclbaD'
+    KEY = '5j88Q~tm8IxBytW1A6aQ~hb1n~_nwvXSwIuRjdeX'
 
-    auth_server_url = "https://login.microsoftonline.com/536391cd-606c-460c-b9c8-b394d89b7a63/oauth2/token"
+    auth_server_url = "https://login.microsoftonline.com/536391cd-606c-460c-b9c8-b394d89b7a63/oauth2/v2.0/token"
     
-    appid = "3edd260c-2ca6-4c03-9e33-98a51a3e4c67"
+    appid = "bc072aaa-e4c3-412c-90bf-ab25bc4e732d"
     appuri = "https://lofty-az.azurewebsites.net"
     # secret = getenv(<name-of-secret-stored-in-env-variable>)
 
@@ -124,7 +124,14 @@ def get_access_token():
         logging.info (token_response.text)
         logging.info (token_response)
         logging.info (token_response.status_code)
-        return "none"
+        
+        token_response = authenticate()
+        if token_response.status_code !=200:
+            logging.info ("3 Failed to obtain token from the OAuth 2.0 server")
+            logging.info (token_response.text)
+            logging.info (token_response)
+            logging.info (token_response.status_code)
+            return "none"
 
     logging.info ("Successfuly obtained a new token")
     logging.info (token_response.text)
@@ -135,10 +142,10 @@ def authenticate():
 
     request_payload = {"username": "varunsundaram@outlook.com",
                        "password": "Juliet#1",
-                       "scope": ".default",
+                       "scope": "User.ReadWrite.All",
                        "grant_type": "client_credentials",
-                       "client_id": "4d296fdd-a8eb-4f9c-8d71-06dc86c4c319",
-                       "client_secret": "dd48Q~dwBSaSbtVp8p3FYrWrz6xVr1inYhlx2akV"}
+                       "client_id": "bc072aaa-e4c3-412c-90bf-ab25bc4e732d",
+                       "client_secret": "5j88Q~tm8IxBytW1A6aQ~hb1n~_nwvXSwIuRjdeX"}
 
     return requests.post(url=TOKEN_URL, data=request_payload)
 
