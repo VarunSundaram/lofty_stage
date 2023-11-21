@@ -37,7 +37,7 @@ def stage_my_lofty():
     api = "https://management.azure.com/subscriptions/cf74786c-6831-4d2b-84c7-9a4e95d202dc/resourceGroups/bollingerposition/providers/Microsoft.Web/sites/lofty-az/functions/loftypts/properties/state?api-version=2022-09-01"
 
     head_data ={
-        "Authorization": "Bearer {token}",
+        "Authorization": f"Bearer {token}",
         "Content-Type": "application/json; charset=utf-8"
         }
 
@@ -77,10 +77,10 @@ def get_access_token():
     # Tenant ID for your Azure Subscription
     TENANT_ID = '536391cd-606c-460c-b9c8-b394d89b7a63'
 
-    # Your Service Principal App ID
+    # Your Service Principal Client ID
     CLIENT = '4d296fdd-a8eb-4f9c-8d71-06dc86c4c319'
 
-    # Your Service Principal Password
+    # Your Service Principal Sectret Password
     KEY = '5j88Q~tm8IxBytW1A6aQ~hb1n~_nwvXSwIuRjdeX'
 
     auth_server_url = f"https://login.microsoftonline.com/{TENANT_ID}/oauth2/v2.0/token"
@@ -90,13 +90,7 @@ def get_access_token():
     # secret = getenv(<name-of-secret-stored-in-env-variable>)
 
     ### 1ST STEP - getting auth token with App registration secret  
-    auth_body = {}  
-    auth_body['client_id'] = appid  
-    auth_body['client_secret'] = KEY  
-    auth_body['grant_type'] = 'client_credentials'  
-    auth_body['resource'] = appid  
-
-    auth_response = post(auth_server_url, data=auth_body)
+    auth_response = authenticate()
     
     if auth_response.status_code !=200:
         logging.info ("1 Failed to obtain token from the OAuth 2.0 server")
@@ -116,7 +110,13 @@ def get_access_token():
             logging.info (auth_response)
             logging.info (auth_response.status_code)
         
-            auth_response = authenticate()
+            auth_body = {}  
+            auth_body['client_id'] = appid  
+            auth_body['client_secret'] = KEY  
+            auth_body['grant_type'] = 'client_credentials'  
+            auth_body['resource'] = appid  
+
+            auth_response = post(auth_server_url, data=auth_body)
             if auth_response.status_code !=200:
                 logging.info ("3 Failed to obtain token from the OAuth 2.0 server")
                 logging.info (auth_response.text)
@@ -128,7 +128,7 @@ def get_access_token():
     logging.info (auth_response.text)
     logging.info (auth_response)
     logging.info (auth_response.status_code)
-    return auth_response["access_token"]
+    return auth_response.json()["access_token"]
  
 def authenticate():
     TOKEN_URL = "https://login.microsoftonline.com/536391cd-606c-460c-b9c8-b394d89b7a63/oauth2/v2.0/token"
