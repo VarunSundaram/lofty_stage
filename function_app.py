@@ -182,5 +182,5 @@ def authenticate():
     return requests.post(url=TOKEN_URL, data=request_payload)
     
 
-if __name__ == "__main__":
-    stage_my_lofty()
+#if __name__ == "__main__":
+#    stage_my_lofty()
