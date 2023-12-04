@@ -7,3 +7,5 @@ azure-functions
 requests
 
 datetime
+
+msal
